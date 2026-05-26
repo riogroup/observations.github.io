@@ -1,1 +1,208 @@
-hello
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendário de Observações - Grupo do Rio</title>
+    <style>
+        :root {
+            --google-blue: #1a73e8;
+            --gray-line: #dadce0;
+            --text-main: #3c4043;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+            text-align: right;
+            padding-bottom: 10px;
+            margin-bottom: -10px; 
+        }
+        
+        .dropdown-toggle {
+            font-weight: bold;
+            color: var(--google-blue);
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-block;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%; 
+            background-color: #fff;
+            min-width: 200px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 100; 
+            border-radius: 4px;
+            border: 1px solid var(--gray-line);
+        }
+        
+        .dropdown-content a {
+            color: var(--text-main);
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 13px;
+            text-align: left;
+        }
+        
+        .dropdown-content a:hover {
+            background-color: #f1f3f4;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        body { font-family: 'Roboto', Arial, sans-serif; color: var(--text-main); display: flex; flex-direction: column; align-items: center; background-color: #fff; margin: 0; padding: 20px; }
+
+        header { width: 100%; max-width: 1000px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--google-blue); padding-bottom: 10px; }
+
+        .nav-buttons button { background: #fff; border: 1px solid var(--gray-line); padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .nav-buttons button:hover { background: #f1f3f4; }
+
+        .calendar-container { width: 100%; max-width: 1000px; border: 1px solid var(--gray-line); border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .calendar-header { display: grid; grid-template-columns: repeat(7, 1fr); background: #f8f9fa; border-bottom: 1px solid var(--gray-line); }
+        .day-label { padding: 10px; text-align: center; font-size: 12px; font-weight: 500; color: #70757a; text-transform: uppercase; }
+
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
+        .calendar-day { min-height: 120px; padding: 5px; border-right: 1px solid var(--gray-line); border-bottom: 1px solid var(--gray-line); background: #fff; }
+        .calendar-day:nth-child(7n) { border-right: none; }
+        .day-number { font-size: 12px; font-weight: 500; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; margin-bottom: 4px; }
+        .today .day-number { background-color: var(--google-blue); color: white; border-radius: 50%; }
+
+        .event-link { 
+            display: block; 
+            font-size: 10px; 
+            padding: 4px 6px; 
+            border-radius: 4px; 
+            margin-top: 4px; 
+            text-decoration: none; 
+            line-height: 1.1; 
+            transition: filter 0.2s;
+        }
+        
+        .event-title {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .event-obs {
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            font-size: 9px;
+            font-weight: normal;
+            opacity: 0.85;
+            word-wrap: break-word;
+            white-space: normal; 
+        }
+
+        .event-1m60 { background-color: #e2f7ed; color: #0d652d; border-left: 3px solid #0d652d; }
+        .event-iag { background-color: #feefc3; color: #b05a00; border-left: 3px solid #b05a00; }
+        .event-soar { background-color: #e8f0fe; color: #1967d2; border-left: 3px solid #1967d2; }
+        .event-zeiss { background-color: #fce8f3; color: #a91369; border-left: 3px solid #a91369; }
+        .event-on { background-color: #e8eaf6; color: #3f51b5; border-left: 3px solid #3f51b5; }
+        .event-link:hover { filter: brightness(0.92); text-decoration: none; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-buttons">
+            <button onclick="changeMonth(-1)">&#10094;</button>
+            <button onclick="changeMonth(1)">&#10095;</button>
+        </div>
+        
+        <h2 id="monthDisplay">Mês Ano</h2>
+        
+        <div style="display: flex; flex-direction: column; align-items: flex-end;">
+            <div style="font-weight: bold; color: var(--google-blue); font-size: 18px;">Observações Grupo do Rio</div>
+            
+            <div class="dropdown">
+                <span class="dropdown-toggle">Sobre o grupo &#9662;</span>
+                <div class="dropdown-content">
+                    <a href="https://riogroup.github.io/">Sobre o Grupo</a>
+                    <a href="projetos/projetos.html">Projetos aprovados</a>
+                    <a href="https://riogroup.github.io/team/team.html#membros-internos">Membros</a>
+                    <a href="observacoes/estatistica.html">Estatísticas de Observação</a>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdBCKLyeh_-OGpOM2g2ShHshx1C2qRd7arGR7DYAVV8zchyPw/viewform?usp=dialog">Formulário da observação</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <div class="day-label">Dom</div><div class="day-label">Seg</div><div class="day-label">Ter</div>
+            <div class="day-label">Qua</div><div class="day-label">Qui</div><div class="day-label">Sex</div><div class="day-label">Sáb</div>
+        </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+    </div>
+
+    <script src="observacoes/observacoes.js"></script>
+    
+    <script>
+
+        let currentDate = new Date();
+
+        function renderCalendar() {
+            const grid = document.getElementById('calendarGrid');
+            const monthDisplay = document.getElementById('monthDisplay');
+            grid.innerHTML = "";
+            const month = currentDate.getMonth();
+            const year = currentDate.getFullYear();
+            
+            monthDisplay.innerText = `${["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"][month]} ${year}`;
+            
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+            // Espaços vazios do mês anterior
+            for (let i = 0; i < firstDay; i++) { 
+                grid.appendChild(document.createElement('div')).className = 'calendar-day'; 
+            }
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayDiv = document.createElement('div');
+                dayDiv.className = 'calendar-day';
+                if(day === new Date().getDate() && month === new Date().getMonth() && year === new Date().getFullYear()) {
+                    dayDiv.classList.add('today');
+                }
+                
+                dayDiv.innerHTML = `<div class="day-number">${day}</div>`;
+                
+                eventos.filter(e => e.dia === day && e.mes === month && e.ano === year).forEach(ev => {
+                    let obsList = "";
+                    try {
+                        const urlParams = new URLSearchParams(ev.link.split('?')[1]);
+                        obsList = urlParams.get('obs') || "";
+                        obsList = obsList.replace(/;/g, ',').replace(/,/g, ', ').trim();
+                    } catch (e) { obsList = ""; }
+
+                    const obsHTML = obsList ? `<span class="event-obs">${obsList}</span>` : "";
+                    
+                    dayDiv.innerHTML += `
+                        <a href="${ev.link}&d=${day}&m=${month + 1}&a=${year}" class="event-link ${ev.classe}" title="${ev.nome}: ${obsList}">
+                            <span class="event-title">${ev.nome}</span>
+                            ${obsHTML}
+                        </a>`;
+                });
+                grid.appendChild(dayDiv);
+            }
+        }
+
+        function changeMonth(off) { currentDate.setMonth(currentDate.getMonth() + off); renderCalendar(); }
+        renderCalendar();
+    </script>
+</body>
+</html>
