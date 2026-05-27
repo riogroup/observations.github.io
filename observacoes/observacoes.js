@@ -60,7 +60,7 @@
             // Agosto (Mês 7)
             {dia: 07,mes: 7,ano: 2026,nome: "1m60: Ocultação", link:"observacoes/1m60.html?obs=Observadores a definir&proj=Studying small Solar System bodies through stellar occultations&PI=Julio Ignacio Bueno de Camargo&links=2002KX14:https://lesia.obspm.fr/lucky-star/occ.php?p=150107&det=sparc4", classe: "event-1m60"},
             // Setembro (Mês 8)
-            {dia: 25,mes: 8,ano: 2026,nome: "ON: Ocultação", link:"observacoes/on.html?obs=Giuliano Margoti&proj=Observações de ocultações no Observatório Nacional&PI=Giuliano Margoti&links=2004UX10:https://lesia.obspm.fr/lucky-star/occobs.php?p=161877&lon=-43.2229&lat=-22.8951808&det=qhy", classe: "event-on"},
+            {dia: 25,mes: 8,ano: 2026,nome: "ON: Ocultação", link:"observacoes/on.html?obs=Giuliano Margoti&proj=Observações de ocultações no Observatório Nacional&PI=Giuliano Margoti&links=2004UX10:https://lesia.obspm.fr/lucky-star/occ.php?p=161877&det=qhy", classe: "event-on"},
             // Outubro (Mês 9)
             // Novembro (Mês 10)
             // Dezembro (Mês 11)
